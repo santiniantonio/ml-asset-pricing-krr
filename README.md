@@ -4,7 +4,7 @@
 ![Optuna](https://img.shields.io/badge/Optuna-Bayesian_Optimization-blue)
 ![Status](https://img.shields.io/badge/Status-Research_Project-blue)
 
-This repository contains a quantitative research pipeline for cross-sectional stock return prediction and portfolio optimization using machine learning. It leverages **Kernel Ridge Regression (KRR)** models dynamically coupled with a **Mean-Variance Portfolio Optimizer**, rigorously evaluated out-of-sample over a 21-year period (2003–2024).
+This repository contains a quantitative research pipeline for machine-learning-based stock return prediction and portfolio construction. It leverages **Kernel Ridge Regression (KRR)** models dynamically coupled with a **Mean-Variance Portfolio Optimizer**, rigorously evaluated out-of-sample over a 21-year period (2003–2024).
 
 The core objective is to investigate whether machine-learning-based return signals translate into economically meaningful portfolio performance once turnover and transaction costs are taken into account.
 
@@ -16,7 +16,7 @@ The core objective is to investigate whether machine-learning-based return signa
 *   **Walk-Forward Methodology:** Static train/test splits are abandoned in favor of a 120-month rolling window backtest, ensuring chronological time-series integrity.
 *   **Friction-Aware Bayesian Optimization:** Hyperparameters ($\lambda, \gamma, c, d$) are dynamically tuned using the Tree-structured Parzen Estimator (TPE) via `Optuna`. Crucially, the optimization objective is the **Annualized Net Sharpe Ratio**, thereby incorporating the economic impact of portfolio turnover into model selection.
 *   **Transaction Costs Accounting:** All out-of-sample portfolio allocations are evaluated strictly net of a realistic 10 basis points (0.10%) transaction cost per unit of turnover.
-*   **100% Gross Exposure Normalization:** Ensures mathematical fairness when comparing the ML models' active Long/Short allocations against the fully invested $1/N$ benchmark.
+*   **100% Gross Exposure Normalization:** Portfolio weights are normalized such that the sum of absolute positions equals 100%, providing a consistent exposure scale across model specifications.
 
 ---
 
@@ -44,9 +44,11 @@ The Walk-Forward backtest highlights a clear *bias-variance tradeoff* in the pre
 
 ![Factor IC](results/factor_ic.png)
 
-<sub>
-⚠️ <strong>Disclaimer:</strong> This project is intended for academic and research purposes only. The results are based on historical data and should not be interpreted as investment advice or as an indication of future performance.
-</sub>
+## 📄 Research Report
+
+A detailed discussion of the mathematical framework, methodology, and empirical results is available in the accompanying research report.
+
+[📄 Read the full research report](Report.pdf)
 
 ---
 
@@ -73,6 +75,12 @@ The Walk-Forward backtest highlights a clear *bias-variance tradeoff* in the pre
    python main.py
 ```
 3. The script will dynamically download data from Yahoo Finance, run the 21-year rolling optimizations, display the analytical charts (Cumulative Returns, Factor IC, Portfolio Weights), and print the final net performance summary.
+
+---
+
+<sub>
+⚠️ <strong>Disclaimer:</strong> This project is intended for academic and research purposes only. The results are based on historical data and should not be interpreted as investment advice or as an indication of future performance.
+</sub>
 
 ---
 
