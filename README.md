@@ -4,7 +4,7 @@
 ![Optuna](https://img.shields.io/badge/Optuna-Bayesian_Optimization-blue)
 ![Status](https://img.shields.io/badge/Status-Production_Ready-success)
 
-This repository contains a full institutional-grade quantitative research pipeline for cross-sectional stock return prediction. It leverages **Kernel Ridge Regression (KRR)** models dynamically coupled with a **Mean-Variance Portfolio Optimizer**, rigorously evaluated out-of-sample over a 21-year period (2003–2024).
+This repository contains a quantitative research pipeline for cross-sectional stock return prediction and portfolio optimization using machine learning. It leverages **Kernel Ridge Regression (KRR)** models dynamically coupled with a **Mean-Variance Portfolio Optimizer**, rigorously evaluated out-of-sample over a 21-year period (2003–2024).
 
 The core objective of this project is to bridge the gap between theoretical Machine Learning alpha and operational reality by explicitly modeling market frictions, portfolio turnover, and cross-sectional data standardisation.
 
