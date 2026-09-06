@@ -2,19 +2,19 @@
 
 ![Python 3.9+](https://img.shields.io/badge/python-3.9+-blue.svg)
 ![Optuna](https://img.shields.io/badge/Optuna-Bayesian_Optimization-blue)
-![Status](https://img.shields.io/badge/Status-Production_Ready-success)
+![Status](https://img.shields.io/badge/Status-Research_Project-blue)
 
 This repository contains a quantitative research pipeline for cross-sectional stock return prediction and portfolio optimization using machine learning. It leverages **Kernel Ridge Regression (KRR)** models dynamically coupled with a **Mean-Variance Portfolio Optimizer**, rigorously evaluated out-of-sample over a 21-year period (2003–2024).
 
-The core objective of this project is to bridge the gap between theoretical Machine Learning alpha and operational reality by explicitly modeling market frictions, portfolio turnover, and cross-sectional data standardisation.
+The core objective is to investigate whether machine-learning-based return signals translate into economically meaningful portfolio performance once turnover and transaction costs are taken into account.
 
 ---
 
 ## 📈 Key Quantitative Features
 
-*   **Strict Look-Ahead Bias Prevention:** All 8 predictive features (Momentum, Reversal, Volatility, Amihud Illiquidity, etc.) are cross-sectionally standardized at each time step ($t$).
+*   **Look-Ahead Bias Controls:** All predictive features (Momentum, Reversal, Volatility, Amihud Illiquidity, etc.) are constructed using information available at each time step and cross-sectionally standardized at time $t$.
 *   **Walk-Forward Methodology:** Static train/test splits are abandoned in favor of a 120-month rolling window backtest, ensuring chronological time-series integrity.
-*   **Friction-Aware Bayesian Optimization:** Hyperparameters ($\lambda, \gamma, c, d$) are dynamically tuned using the Tree-structured Parzen Estimator (TPE) via `Optuna`. Crucially, the optimization objective is the **Annualized Net Sharpe Ratio**, forcing the algorithm to organically penalize high-turnover parameter configurations.
+*   **Friction-Aware Bayesian Optimization:** Hyperparameters ($\lambda, \gamma, c, d$) are dynamically tuned using the Tree-structured Parzen Estimator (TPE) via `Optuna`. Crucially, the optimization objective is the **Annualized Net Sharpe Ratio**, thereby incorporating the economic impact of portfolio turnover into model selection.
 *   **Transaction Costs Accounting:** All out-of-sample portfolio allocations are evaluated strictly net of a realistic 10 basis points (0.10%) transaction cost per unit of turnover.
 *   **100% Gross Exposure Normalization:** Ensures mathematical fairness when comparing the ML models' active Long/Short allocations against the fully invested $1/N$ benchmark.
 
@@ -22,7 +22,7 @@ The core objective of this project is to bridge the gap between theoretical Mach
 
 ## 📊 Empirical Results (2003 - 2024)
 
-The Walk-Forward backtest highlights a severe *bias-variance tradeoff* heavily compounded by market frictions. Over relatively short 10-year rolling windows, highly flexible non-linear models (Polynomial) suffer from noise-driven overfitting, resulting in massive portfolio turnover (69.40% / mo) that destroys theoretical alpha. The structurally rigid **Linear Kernel** generalizes significantly better, proving to be the most robust predictive model.
+The Walk-Forward backtest highlights a clear *bias-variance tradeoff* in the presence of market frictions. Within each 10-year rolling training window, the highly flexible non-linear Polynomial model exhibits substantially higher portfolio turnover (69.40% / mo) and weaker net risk-adjusted performance. The **Linear Kernel** delivers the strongest out-of-sample risk-adjusted performance among the tested KRR specifications, suggesting that the additional flexibility of non-linear kernels does not translate into superior portfolio performance in this setting.
 
 *Performance is evaluated strictly net of 10 bps transaction costs on a universe of 10 U.S. mega-cap equities.*
 
@@ -33,7 +33,20 @@ The Walk-Forward backtest highlights a severe *bias-variance tradeoff* heavily c
 | **Gaussian RBF** | 1055.07% | 903.38% | 0.8661 | 13.21% | 53.93% / mo |
 | *Equal-Weight (1/N)* | *-* | *2679.07%* | *1.2055* | *13.41%* | *0.00% / mo* |
 
-> **Note on Benchmark Dominance:** The immense outperformance of the $1/N$ passive benchmark empirically demonstrates the profound impact of *survivorship bias*. Testing on a static universe of ex-post selected mega-winners severely handicaps active Long/Short ML models, as shorting assets structurally destined for exponential growth incurs heavy directional and friction losses.
+> **Note on Benchmark Dominance:** The strong performance of the $1/N$ benchmark should be interpreted in light of *survivorship bias*: the investment universe consists of a static set of ex-post selected mega-cap equities. This creates a favorable environment for the passive benchmark and may disadvantage active long/short strategies, particularly when stocks that experienced strong long-term appreciation are included in the investment universe throughout the entire sample period.
+---
+
+## 📈 Performance Visualization
+
+![Cumulative Returns](results/cumulative_returns.png)
+
+![Portfolio Weights](results/portfolio_weights.png)
+
+![Factor IC](results/factor_ic.png)
+
+<sub>
+⚠️ <strong>Disclaimer:</strong> This project is intended for academic and research purposes only. The results are based on historical data and should not be interpreted as investment advice or as an indication of future performance.
+</sub>
 
 ---
 
@@ -63,4 +76,4 @@ The Walk-Forward backtest highlights a severe *bias-variance tradeoff* heavily c
 
 ---
 
-**Author:** Antonio Gabriele Santini | *Quantitative Finance UniTo*
+**Author:** Antonio Gabriele Santini | *MSc Quantitative Finance* | *University of Turin*
